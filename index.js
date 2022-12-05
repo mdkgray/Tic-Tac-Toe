@@ -19,6 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
         [6] [7] [8]
     */
 
+    // Possible winning conditions
     const winningConditions = [
         [0, 1, 2],
         [3, 4, 5],
@@ -30,6 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
         [2, 4, 6]
     ];   
 
+    // Function to validate if a chosen tile results in a win or a tie
     function handleResultValidation() {
         let roundWon = false;
 
@@ -55,10 +57,13 @@ window.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!board.includes(''))
-            announce(TIE);
+        if (!board.includes('')) {
+            announceWinner(TIE);
+        }
+            
     };
 
+    // Function to announce a winner of a game
     const announceWinner = (type) => {
         switch(type) {
             case PLAYERX_WON:
@@ -68,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 announcer.innerHTML = 'Player <span class="playerO">O</span> Won';
                 break; 
             case TIE:
-                announcer.innerText = 'Tie!';
+                announcer.innerText = 'We have a tie!';
         }
         announcer.classList.remove('hide');
     };
@@ -82,10 +87,12 @@ window.addEventListener('DOMContentLoaded', () => {
         return true;
     };
 
+    // Function to update the board
     const updateBoard = (index) => {
         board[index] = currentPlayer;
     };
 
+    // Function to change player once selection has been made 
     const changePlayer = () => {
         playerDisplay.classList.remove(`player${currentPlayer}`);
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
@@ -93,6 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
         playerDisplay.classList.add(`player${currentPlayer}`);
     };
 
+    // Control function on user interaction 
     const userAction = (tile, index) => {
         if(isValidAction(tile) && isGameActive) {
             tile.innerText = currentPlayer;
@@ -103,6 +111,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Function to reset board 
     const resetBoard = () => {
         board = ['', '', '', '', '', '', '', '', ''];
         isGameActive = true;
@@ -119,9 +128,11 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Event listener for each tile
     tiles.forEach((tile, index) => {
         tile.addEventListener('click', () => userAction(tile, index));
     });
 
+    // Event listener for rest button 
     resetBtn.addEventListener('click', resetBoard);
 });
