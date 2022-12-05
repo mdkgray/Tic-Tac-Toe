@@ -74,3 +74,14 @@
     margin-left: 1em;
     cursor: crosshair;
 }
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    margin-bottom: 15px;
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+}
