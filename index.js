@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const tiles = Array.from(document.querySelectorAll('tile'));
+    const tiles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetBtn = document.querySelector('#reset');
     const announcer = document.querySelector('.announcer');
@@ -28,11 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
         [2, 5, 8],
         [0, 4, 8],
         [2, 4, 6]
-    ];
-
-    tiles.forEach((tile, index) => {
-        tile.addEventListener('click', () => userAction(tile, index));
-    });
+    ];   
 
     function handleResultValidation() {
         let roundWon = false;
@@ -59,9 +55,8 @@ window.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!board.includes('')) {
+        if (!board.includes(''))
             announce(TIE);
-        }
     };
 
     const announceWinner = (type) => {
@@ -73,7 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 announcer.innerHTML = 'Player <span class="playerO">O</span> Won';
                 break; 
             case TIE:
-                announcer.innerText = 'It is a tie!';
+                announcer.innerText = 'Tie!';
         }
         announcer.classList.remove('hide');
     };
@@ -123,6 +118,10 @@ window.addEventListener('DOMContentLoaded', () => {
             tile.classList.remove('playerO');
         });
     };
+
+    tiles.forEach((tile, index) => {
+        tile.addEventListener('click', () => userAction(tile, index));
+    });
 
     resetBtn.addEventListener('click', resetBoard);
 });
