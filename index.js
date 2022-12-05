@@ -34,6 +34,36 @@ window.addEventListener('DOMContentLoaded', () => {
         tile.addEventListener('click', () => userAction(tile, index));
     });
 
+    function handleResultValidation() {
+        let roundWon = false;
+
+        for (let i = 0; i <= 7; i++) {
+            const winCondition = winningConditions[i];
+            const a = board[winCondition[0]];
+            const b = board[winCondition[1]];
+            const c = board[winCondition[2]];
+
+            if (a === '' || b === '' || c === '') {
+                continue;
+            }
+
+            if (a === b && b === c) {
+                roundWon = true;
+                break;
+            }
+        }
+
+        if (roundWon) {
+            announceWinner(currentPlayer === 'X' ? PLAYERX_WON : PLAYERO_WON);
+            isGameActive = false;
+            return;
+        }
+
+        if (!board.includes('')) {
+            announce(TIE);
+        }
+    };
+
     const announceWinner = (type) => {
         switch(type) {
             case PLAYERX_WON:
@@ -46,6 +76,19 @@ window.addEventListener('DOMContentLoaded', () => {
                 announcer.innerText = 'It is a tie!';
         }
         announcer.classList.remove('hide');
+    };
+
+    // Function to ensure players only play empty tiles 
+    const isValidAction = (tile) => {
+        if (tile.innerText === 'X' || tile.innerText === 'O') {
+            return false;
+        }
+
+        return true;
+    };
+
+    const updateBoard = (index) => {
+        board[index] = currentPlayer;
     };
 
     const changePlayer = () => {
@@ -65,5 +108,21 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    resetButton.addEventListener('click', resetBoard);
+    const resetBoard = () => {
+        board = ['', '', '', '', '', '', '', '', ''];
+        isGameActive = true;
+        announcer.classList.add('hide');
+
+        if (currentPlayer === 'O') {
+            changePlayer();
+        }
+
+        tiles.forEach(tile => {
+            tile.innerText = '';
+            tile.classList.remove('playerX');
+            tile.classList.remove('playerO');
+        });
+    };
+
+    resetBtn.addEventListener('click', resetBoard);
 });
