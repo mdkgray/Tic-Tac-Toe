@@ -30,5 +30,40 @@ window.addEventListener('DOMContentLoaded', () => {
         [2, 4, 6]
     ];
 
+    tiles.forEach((tile, index) => {
+        tile.addEventListener('click', () => userAction(tile, index));
+    });
+
+    const announceWinner = (type) => {
+        switch(type) {
+            case PLAYERX_WON:
+                announcer.innerHTML = 'Player <span class="playerX">X</span> Won';
+                break;
+            case PLAYERO_WON:
+                announcer.innerHTML = 'Player <span class="playerO">O</span> Won';
+                break; 
+            case TIE:
+                announcer.innerText = 'It is a tie!';
+        }
+        announcer.classList.remove('hide');
+    };
+
+    const changePlayer = () => {
+        playerDisplay.classList.remove(`player${currentPlayer}`);
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        playerDisplay.innerText = currentPlayer;
+        playerDisplay.classList.add(`player${currentPlayer}`);
+    };
+
+    const userAction = (tile, index) => {
+        if(isValidAction(tile) && isGameActive) {
+            tile.innerText = currentPlayer;
+            tile.classList.add(`player${currentPlayer}`);
+            updateBoard(index);
+            handleResultValidation();
+            changePlayer();
+        }
+    };
+
     resetButton.addEventListener('click', resetBoard);
 });
